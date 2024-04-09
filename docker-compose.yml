@@ -1,17 +1,26 @@
 version: '3'
 
 services:
-  web:
+  django:
     build: .
+    command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:
       - .:/app
     depends_on:
-      - db
-  db:
+      - postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/smart_vet_db
+
+  postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: sismico_db
-      POSTGRES_USER: sismico_user
-      POSTGRES_PASSWORD: sismico_password
+      - POSTGRES_DB=smart_vet_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
