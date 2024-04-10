@@ -24,15 +24,15 @@ class FeatureListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewset
             for feature in sismic_data:
                 # Send the Feature data to serializer before saving it to the database
                 serializer = FeatureSerializer(data={
-                    'external_id': Feature['id'],
-                    'magnitude': Feature['properties']['mag'],
-                    'place': Feature['properties']['place'],
-                    'time': Feature['properties']['time'],
-                    'tsunami': Feature['properties']['tsunami'],
-                    'mag_type': Feature['properties']['magType'],
-                    'title': Feature['properties']['title'],
-                    'longitude': Feature['geometry']['coordinates'][0],
-                    'latitude': Feature['geometry']['coordinates'][1]
+                    'external_id': feature.get('external_id', ''),
+                    'magnitude': feature['properties']['mag'],
+                    'place': feature['properties']['place'],
+                    'time': feature['properties']['time'],
+                    'tsunami': feature['properties']['tsunami'],
+                    'mag_type': feature['properties']['magType'],
+                    'title': feature['properties']['title'],
+                    'longitude': feature['geometry']['coordinates'][0],
+                    'latitude': feature['geometry']['coordinates'][1]
                 })
                 if serializer.is_valid():
                     serializer.save()
