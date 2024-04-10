@@ -8,7 +8,7 @@ from django.contrib import admin
 
 urlpatterns = [
     # Django Admin
-    path('admin/', admin.site.urls),
+    path(settings.ADMIN_URL, admin.site.urls),
 
     path('', include(('sismic_api.sismic_data.urls', 'sismic_data'), namespace='sismic_data')),
     ]

@@ -77,6 +77,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sismic_api.wsgi.application'
 
+# Admin
+ADMIN_URL = 'admin/'
+ADMINS = [
+    ("""Luis Diaz""", 'luisedgucv@gmail.com'),
+]
+MANAGERS = ADMINS
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
