@@ -3,7 +3,10 @@
 # Django REST Framework
 from rest_framework.response import Response
 from rest_framework import viewsets, mixins
-from rest_framework.decorators import action
+
+# Utilities
+from datetime import datetime
+from decimal import Decimal, ROUND_HALF_UP
 
 # Models
 from sismic_api.sismic_data.models import Feature
@@ -22,17 +25,39 @@ class FeatureListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewset
         sismic_data = get_sismic_data()
         if sismic_data:
             for feature in sismic_data:
+                # Convert the time provided by GeopJson into a DateTime field
+                timestamp = feature['properties']['time'] / 1000  # Convertir milisegundos a segundos
+                formatted_time = datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+
+                # Convert the time provided by GeopJson into a DateTime field
+                longitude = Decimal(feature['geometry']['coordinates'][0]).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+                latitude = Decimal(feature['geometry']['coordinates'][1]).quantize(Decimal('0.000001'), rounding=ROUND_HALF_UP)
+
+                # Verify if the Feature already exists
+                if Feature.objects.filter(
+                    external_id=feature.get('external_id', ''),
+                    magnitude=feature['properties']['mag'],
+                    place=feature['properties']['place'],
+                    time=formatted_time,
+                    tsunami=feature['properties']['tsunami'],
+                    mag_type=feature['properties']['magType'],
+                    title=feature['properties']['title'],
+                    longitude=longitude,
+                    latitude=latitude
+                ).exists():
+                    continue  # if already exists, it moves to the next feature
+
                 # Send the Feature data to serializer before saving it to the database
                 serializer = FeatureSerializer(data={
                     'external_id': feature.get('external_id', ''),
                     'magnitude': feature['properties']['mag'],
                     'place': feature['properties']['place'],
-                    'time': feature['properties']['time'],
+                    'time': formatted_time,
                     'tsunami': feature['properties']['tsunami'],
                     'mag_type': feature['properties']['magType'],
                     'title': feature['properties']['title'],
-                    'longitude': feature['geometry']['coordinates'][0],
-                    'latitude': feature['geometry']['coordinates'][1]
+                    'longitude': longitude,
+                    'latitude': latitude
                 })
                 if serializer.is_valid():
                     serializer.save()
