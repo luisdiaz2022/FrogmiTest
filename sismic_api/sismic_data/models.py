@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Feature(models.Model):
-    id = models.AutoField(primary_key=True)
+
     external_id = models.CharField(max_length=255, blank=True)
 
     magnitude = models.DecimalField(
@@ -10,9 +10,11 @@ class Feature(models.Model):
         decimal_places=2,
         validators=[MinValueValidator(-1.0), MaxValueValidator(10.0)]
         )
+    
     mag_type = models.CharField(max_length=10)
 
     place = models.CharField(max_length=255)
+
     time = models.DateTimeField()
 
     url = models.CharField(max_length=255, null=False)
@@ -27,6 +29,7 @@ class Feature(models.Model):
         null=False,
         validators=[MinValueValidator(-180.0), MaxValueValidator(180.0)]
         )
+    
     latitude = models.DecimalField(
         max_digits=9, 
         decimal_places=6, 
