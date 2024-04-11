@@ -3,7 +3,6 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Feature(models.Model):
     id = models.AutoField(primary_key=True)
-
     external_id = models.CharField(max_length=255, blank=True)
 
     magnitude = models.DecimalField(
