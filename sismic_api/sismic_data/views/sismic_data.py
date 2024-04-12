@@ -26,9 +26,9 @@ class FeatureListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewset
 
         sismic_data = get_sismic_data()
         if sismic_data: # cambiar a try catch -- debemos mostrar cual error esta pasando
-            for feature in sismic_data: # Opcional Bulk_create permite trabajar performante con grandes datos
+            features_to_create = []
 
-                # Send the Feature data to serializer before saving it to the database
+            for feature in sismic_data:
                 serializer = FeatureSerializer(data={
                     'external_id': feature.get('external_id', ''),
                     'magnitude': feature['properties']['mag'],
@@ -41,9 +41,13 @@ class FeatureListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewset
                     'latitude': feature['geometry']['coordinates'][1]
                 })
                 if serializer.is_valid():
-                    serializer.save()
+                    feature_instance = serializer.save()
+                    features_to_create.append(Feature)
                 else:
                     return Response(serializer.errors, status=400)
+                
+            Feature.objects.bulk_create(features_to_create)
+
             return Response({'message': 'Datos sismológicos guardados exitosamente'})
         else:
             return Response({'error': 'No se pudieron obtener los datos sismológicos'}, status=500)
