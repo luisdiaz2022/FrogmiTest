@@ -5,10 +5,10 @@ from rest_framework.response import Response
 from rest_framework import viewsets, mixins
 
 # Models
-from sismic_api.sismic_data.models import Feature
+from sismic_api.sismic_data.models.features import Feature
 
 # Serializers
-from sismic_api.sismic_data.serializers import FeatureSerializer
+from sismic_api.sismic_data.serializers.features import FeatureSerializer
 
 # Api
 from sismic_api.sismic_data.api import get_sismic_data

@@ -8,7 +8,7 @@ from django.utils import timezone
 from rest_framework import serializers
 
 # Model
-from .models import Feature
+from sismic_api.sismic_data.models.features import Feature
 
 class FeatureSerializer(serializers.ModelSerializer):
     class Meta:
