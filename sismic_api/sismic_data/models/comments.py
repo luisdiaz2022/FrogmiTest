@@ -1,5 +1,10 @@
-from django.db import models
+"""Comments Model."""
+
+# Utilities
 from django.utils import timezone
+
+# Django
+from django.db import models
 
 class Comment(models.Model):
     body = models.TextField()

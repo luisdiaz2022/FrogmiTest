@@ -1,6 +1,7 @@
+"""Sismic_Data App"""
+
 # Django
 from django.apps import AppConfig
-
 
 class SismicAppConfig(AppConfig):
     """Sismic app config."""

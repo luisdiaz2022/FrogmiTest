@@ -1,3 +1,6 @@
+"""GeoJson Api"""
+
+# Utilities
 import requests
 
 def get_sismic_data():

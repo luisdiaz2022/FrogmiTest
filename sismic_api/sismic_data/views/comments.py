@@ -1,7 +1,14 @@
+"""Comments View."""
+
+# Django REST Framework
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+# Models
 from sismic_api.sismic_data.models import Feature, Comment
+
+# Serializers
 from sismic_api.sismic_data.serializers import CommentSerializer
 
 class CreateCommentView(APIView):
