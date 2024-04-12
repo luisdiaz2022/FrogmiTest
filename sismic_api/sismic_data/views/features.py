@@ -42,7 +42,7 @@ class FeatureListViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, viewset
                 })
                 if serializer.is_valid():
                     feature_instance = serializer.save()
-                    features_to_create.append(Feature(*args, **kwargs))
+                    features_to_create.append(feature_instance)
                 else:
                     return Response(serializer.errors, status=400)
                 
