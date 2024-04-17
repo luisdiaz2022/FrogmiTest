@@ -3,7 +3,7 @@
 # Django
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+# MinValueValidator, MaxValueValidator no funciona
 class Feature(models.Model):
 
     external_id = models.CharField(max_length=255, blank=True)

@@ -3,7 +3,8 @@
 # Django REST Framework
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework.viewsets  import ViewSet
+from rest_framework.decorators import action
 
 # Models
 from sismic_api.sismic_data.models import Feature, Comment
@@ -11,8 +12,8 @@ from sismic_api.sismic_data.models import Feature, Comment
 # Serializers
 from sismic_api.sismic_data.serializers import CommentSerializer
 
-class CreateCommentView(APIView):
-    def post(self, request, feature_id):
+class CreateCommentView(ViewSet):
+    def create(self, request, feature_id):
         try:
             feature = Feature.objects.get(pk=feature_id)
         except Feature.DoesNotExist:
