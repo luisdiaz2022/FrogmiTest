@@ -69,5 +69,3 @@ Second, build the container
 
 Initialize the project:
 ``` docker-compose up ```
-
-- ## App's Screenshots 
